@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -9,7 +10,8 @@ public class Tic_Tac_Toe {
     public static String winnerX = Arrays.toString(winnerArrayX);
     public static String[][] arrays = new String[8][3];
     private static Boolean running = true;
-    private static Boolean isBoardFull = true;
+    private static Boolean isBoardFull = false;
+    public static ArrayList <String> stringArray = new ArrayList<>();
 
 
     public static void main(String[] args) {
@@ -32,6 +34,7 @@ public class Tic_Tac_Toe {
         for (int i = 0; i < myArray.length; i++) {
             for (int j = 0; j < myArray[i].length; j++) {
                 myArray[i][j] = " ";
+                stringArray.add(" ");
             }
         }
     }
@@ -53,14 +56,13 @@ public class Tic_Tac_Toe {
 
         for (int i = 0; i < myArray.length; i++) {
 
-            if (!running || !isBoardFull) {
+            if (!running) {
                 printCurrentBoard(myArray);
                 break;
             }
-
             for (int j = 0; j < myArray[i].length; j++) {
                 {
-                    if (running || isBoardFull) {
+                    if (running && !isBoardFull) {
 
                         printCurrentBoard(myArray);
 
@@ -79,14 +81,13 @@ public class Tic_Tac_Toe {
                         } else System.out.println("Enter another position, this one is not empty.");
 
                         createArrays(myArray);
+//                        populateStringArray(myArray);
                         getWinner(arrays);
                         isBoardFull(myArray);
                     }
                 }
             }
         }
-//        printCurrentBoard(myArray);
-//        System.out.println("Game over! No winners!");
     }
 
     public static void getWinner(String[][] arrays) {
@@ -107,22 +108,19 @@ public class Tic_Tac_Toe {
         }
     }
 
-    public static boolean isBoardFull(String[][] myArray){
+    public static void isBoardFull(String[][] myArray){
 
-        for (int i = 0; i < myArray.length; i++){
+        for (int i = 0; i < stringArray.size(); i++) {
+            if (stringArray.get(i).equals(" ")) {
+                isBoardFull = false;
+                break;
 
-            for (int j = 0; j < myArray[i].length; j++){
-
-                if (myArray[i][j].equals(" ")){
-                    isBoardFull = true;
-                }
-                else isBoardFull = false;
-                running = false;
+            } else if (i == stringArray.size()-1 && !stringArray.get(i).equals(" ")) {
+                isBoardFull = true;
                 System.out.println("Game over! No winners.");
+                printCurrentBoard(myArray);
             }
         }
-
-        return isBoardFull;
     }
 
     public static void printCreatedArrays(String[][] arrays) {
@@ -137,6 +135,17 @@ public class Tic_Tac_Toe {
         }
     }
 
+//    public static void populateStringArray (String myArraysCell){
+//
+//
+////        for (int i = 0; i < myArray.length; i++){
+////
+////            for (int j = 0; j < myArray.length; j++){
+//
+//                stringArray.set(0, myArray[i][j]);
+//            }
+////        }
+////    }
 
     public static void createArrays(String[][] myArray) {
         for (int i = 0; i < myArray.length; i++) {
